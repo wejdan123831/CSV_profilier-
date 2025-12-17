@@ -3,8 +3,8 @@
 from pathlib import Path
 from csv import DictReader
 from typing import List, Dict, Any , Tuple 
+import io 
 
-# def read_csv_to_list_of_dicts(filepath: Path) -> List[Dict[str, str]]:
 def read_csv(file_path: Path) -> Tuple[List[Dict], List[str]]:     
     
     

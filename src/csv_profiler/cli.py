@@ -1,69 +1,50 @@
-# main 
 
-import json
-import csv
+ # cli.py
+import typer
+from pathlib import Path
+from typing_extensions import Annotated 
+
+
+import io_handler
 import profiling
 import render 
-from pathlib import Path
-import io_handler
-#
-CSV_PATH = Path(r"C:\Users\w\Documents\my_csv_project\csv-profiler\src\saudi_shopping_with_missing2.csv")
-def generate_profile():
-    
-    if not CSV_PATH.exists():
-        print(f"Error: File not found at {CSV_PATH}")
-        return
-    
-    
 
-    data, headers = io_handler.read_csv(CSV_PATH) 
-    if not headers:
-        print("The CSV file is empty or has no headers.")
-        return
-    report = {
-        "rows": 0,
-        "columns": {}
-    }
-        # the columns
-    for h in headers:
-            report["columns"][h] = {"missing": 0, "type": "number", "_temp_types": set()} # dict for evry column 
 
-    for row in data:
-        report["rows"] += 1
-        for h in headers:
-            val = row[h]
-            if profiling.is_missing(val):
-                report["columns"][h]["missing"] += 1
-            else:
-                # 
-                if not report["columns"][h]["_temp_types"]:
-                    dtype = profiling.get_data_type(val)
-                    report["columns"][h]["_temp_types"].add(dtype)
-    # each colume data type
-     
-    for h in headers:
-        types = report["columns"][h].pop("_temp_types")
-        if "string" in types:
-            report["columns"][h]["type"] = "string"
-        elif "number" in types:
-            report["columns"][h]["type"] = "number"
-        else:
-            report["columns"][h]["type"] = "unknown"
+app = typer.Typer()
 
-    # 1.  save report.json
-    base_output = CSV_PATH.parent / "data_profile_report"
-    
-    render.generate_json(report, base_output)
-    render.generate_md(report, base_output)
-    
-    #render.generate_json(report ,CSV_PATH)
-    #render.generate_md(report , CSV_PATH)
+@app.command()
+def main(
+    path: Annotated[Path, typer.Argument(help="Path to the CSV file to profile")]
+):
    
-    print("Done! report.json and report.md have been created successfully.")
+    
+    if not path.exists():
+        typer.secho(f" Error: File not found at {path}", fg=typer.colors.RED, bold=True)
+        raise typer.Exit(code=1)
 
-  ## run only if the main   
+    typer.echo(f" Reading and analyzing: {path.name}...")
 
+    
+    try:
+        data, headers = io_handler.read_csv(path) 
+        
+        if not headers:
+            typer.echo(" The CSV file is empty or has no headers.")
+            return
+
+  
+        report = profiling.profile_csv(data, headers)
+
+       
+        base_output = path.parent / "data_profile_report"
+        render.generate_json(report, base_output)
+        render.generate_md(report, base_output)
+        
+        typer.secho(f" Done! Reports created at: {path.parent}", fg=typer.colors.GREEN, bold=True)
+
+    except Exception as e:
+        typer.secho(f" An error occurred: {e}", fg=typer.colors.RED)
+
+# 6. 
 if __name__ == "__main__":
-    generate_profile()
-  
-  
+    app()
