@@ -1,5 +1,5 @@
 [project]
-name = "profile"
+name = "csv-profiler"
 version = "0.1.0"
 description = "A simple CSV data profiling tool"
 readme = "README.md"
