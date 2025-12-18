@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.scripts]
-profile = "csv_profiler.cli:main"
+profile = "csv_profiler.cli:app"
 
 [build-system]
 requires = ["hatchling"]
