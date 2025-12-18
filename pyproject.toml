@@ -9,9 +9,8 @@ dependencies = [
     "pandas",
 ]
 
-
 [project.scripts]
-profile = "csv_profiler.main:main"
+profile = "csv_profiler.cli:main"
 
 [build-system]
 requires = ["hatchling"]
