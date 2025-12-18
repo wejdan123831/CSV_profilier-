@@ -1,0 +1,29 @@
+{
+    "rows": 8,
+    "columns": {
+        "id": {
+            "missing": 0,
+            "type": "number"
+        },
+        "name": {
+            "missing": 0,
+            "type": "string"
+        },
+        "age": {
+            "missing": 1,
+            "type": "number"
+        },
+        "city": {
+            "missing": 1,
+            "type": "string"
+        },
+        "salary": {
+            "missing": 0,
+            "type": "number"
+        },
+        "join_date": {
+            "missing": 1,
+            "type": "string"
+        }
+    }
+}
