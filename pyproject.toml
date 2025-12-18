@@ -1,0 +1,18 @@
+[project]
+name = "csv-profiler"
+version = "0.1.0"
+description = "A simple CSV data profiling tool"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "streamlit",
+    "pandas",
+]
+
+
+[project.scripts]
+profile = "csv_profiler.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
