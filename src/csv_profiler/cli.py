@@ -5,9 +5,9 @@ from pathlib import Path
 from typing_extensions import Annotated 
 
 
-import io_handler
-import profiling
-import render 
+from . import io_handler  
+from . import profiling   
+from . import render
 
 
 app = typer.Typer()
